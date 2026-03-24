@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StegoAI - Image & Video Steganography</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>StegoAI</h1>
+            </div>
+            <p class="tagline">Advanced Image & Video Steganography</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="hide-image">
+                    <i class="fas fa-image"></i> Hide in Image
+                </button>
+                <button class="tab-btn" data-tab="hide-video">
+                    <i class="fas fa-video"></i> Hide in Video
+                </button>
+                <button class="tab-btn" data-tab="reveal-image">
+                    <i class="fas fa-search"></i> Reveal from Image
+                </button>
+                <button class="tab-btn" data-tab="reveal-video">
+                    <i class="fas fa-film"></i> Reveal from Video
+                </button>
+            </div>
+
+            <!-- Hide Image in Image -->
+            <div id="hide-image" class="tab-content active">
+                <div class="content-container">
+                    <h2><i class="fas fa-image"></i> Hide Secret Image in Cover Image</h2>
+                    
+                    <div class="upload-section">
+                        <div class="upload-box" id="cover-upload-image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Cover Image</strong></p>
+                            <p class="small">Click or drag PNG, JPG, BMP</p>
+                            <input type="file" id="cover-image-input" accept="image/*" style="display: none">
+                            <div class="file-info" id="cover-image-info" style="display: none;"></div>
+                        </div>
+
+                        <div class="upload-box" id="secret-upload-image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Secret Image</strong></p>
+                            <p class="small">Click or drag PNG, JPG, BMP</p>
+                            <input type="file" id="secret-image-input" accept="image/*" style="display: none">
+                            <div class="file-info" id="secret-image-info" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="options-section">
+                        <label>
+                            <input type="checkbox" id="shuffle-image" checked>
+                            <span>Use Enhanced Security (Block Shuffling)</span>
+                        </label>
+                    </div>
+
+                    <button id="hide-image-btn" class="action-btn" disabled>
+                        <i class="fas fa-lock"></i> Hide Secret Image
+                    </button>
+
+                    <div id="hide-image-progress" class="progress-section" style="display: none;">
+                        <p id="hide-image-status">Processing...</p>
+                        <div class="progress-bar">
+                            <div id="hide-image-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p class="progress-percent" id="hide-image-percent">0%</p>
+                    </div>
+
+                    <div id="hide-image-result" class="result-section" style="display: none;">
+                        <h3><i class="fas fa-check-circle"></i> Success!</h3>
+                        <p>Your secret image has been hidden in the cover image.</p>
+                        <div class="preview-container">
+                            <img id="hide-image-preview" src="" alt="Result">
+                        </div>
+                        <div class="button-group">
+                            <button id="hide-image-download" class="download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button id="hide-image-reset" class="reset-btn">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="hide-image-error" class="error-section" style="display: none;">
+                        <p id="hide-image-error-msg"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hide Video in Video -->
+            <div id="hide-video" class="tab-content">
+                <div class="content-container">
+                    <h2><i class="fas fa-video"></i> Hide Secret Video in Cover Video</h2>
+                    
+                    <div class="upload-section">
+                        <div class="upload-box" id="cover-upload-video">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Cover Video</strong></p>
+                            <p class="small">Click or drag MP4, AVI, MOV, MKV</p>
+                            <input type="file" id="cover-video-input" accept="video/*" style="display: none">
+                            <div class="file-info" id="cover-video-info" style="display: none;"></div>
+                        </div>
+
+                        <div class="upload-box" id="secret-upload-video">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Secret Video</strong></p>
+                            <p class="small">Click or drag MP4, AVI, MOV, MKV</p>
+                            <input type="file" id="secret-image-video-input" accept="video/*" style="display: none">
+                            <div class="file-info" id="secret-image-video-info" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="options-section">
+                        <label>
+                            <input type="checkbox" id="shuffle-video" checked>
+                            <span>Use Enhanced Security (Block Shuffling)</span>
+                        </label>
+                    </div>
+
+                    <button id="hide-video-btn" class="action-btn" disabled>
+                        <i class="fas fa-lock"></i> Hide Secret Video
+                    </button>
+
+                    <div id="hide-video-progress" class="progress-section" style="display: none;">
+                        <p id="hide-video-status">Processing...</p>
+                        <div class="progress-bar">
+                            <div id="hide-video-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p class="progress-percent" id="hide-video-percent">0%</p>
+                    </div>
+
+                    <div id="hide-video-result" class="result-section" style="display: none;">
+                        <h3><i class="fas fa-check-circle"></i> Success!</h3>
+                        <p>Your secret video has been encrypted inside the cover video.</p>
+                        <div class="button-group">
+                            <button id="hide-video-download" class="download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button id="hide-video-reset" class="reset-btn">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="hide-video-error" class="error-section" style="display: none;">
+                        <p id="hide-video-error-msg"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reveal Image from Image -->
+            <div id="reveal-image" class="tab-content">
+                <div class="content-container">
+                    <h2><i class="fas fa-search"></i> Reveal Secret Image from Container Image</h2>
+                    
+                    <div class="upload-section">
+                        <div class="upload-box" id="container-upload-image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Container Image</strong></p>
+                            <p class="small">Click or drag PNG, JPG, BMP</p>
+                            <input type="file" id="container-image-input" accept="image/*" style="display: none">
+                            <div class="file-info" id="container-image-info" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="options-section">
+                        <label>
+                            <input type="checkbox" id="shuffle-reveal-image" checked>
+                            <span>Use Enhanced Security (Block Shuffling)</span>
+                        </label>
+                    </div>
+
+                    <button id="reveal-image-btn" class="action-btn" disabled>
+                        <i class="fas fa-unlock"></i> Reveal Secret Image
+                    </button>
+
+                    <div id="reveal-image-progress" class="progress-section" style="display: none;">
+                        <p id="reveal-image-status">Processing...</p>
+                        <div class="progress-bar">
+                            <div id="reveal-image-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p class="progress-percent" id="reveal-image-percent">0%</p>
+                    </div>
+
+                    <div id="reveal-image-result" class="result-section" style="display: none;">
+                        <h3><i class="fas fa-check-circle"></i> Success!</h3>
+                        <p>Secret image revealed successfully!</p>
+                        <div class="preview-container">
+                            <img id="reveal-image-preview" src="" alt="Result">
+                        </div>
+                        <div class="button-group">
+                            <button id="reveal-image-download" class="download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button id="reveal-image-reset" class="reset-btn">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="reveal-image-error" class="error-section" style="display: none;">
+                        <p id="reveal-image-error-msg"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reveal Video from Encrypted Video -->
+            <div id="reveal-video" class="tab-content">
+                <div class="content-container">
+                    <h2><i class="fas fa-film"></i> Reveal Secret Video from Encrypted Video</h2>
+                    
+                    <div class="upload-section">
+                        <div class="upload-box" id="container-upload-video">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Upload Encrypted Video</strong></p>
+                            <p class="small">Click or drag MP4, AVI, MOV, MKV</p>
+                            <input type="file" id="container-video-input" accept="video/*" style="display: none">
+                            <div class="file-info" id="container-video-info" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="options-section">
+                        <label style="margin-top: 0;">
+                            <input type="checkbox" id="shuffle-reveal-video" checked>
+                            <span>Use Enhanced Security (Block Shuffling)</span>
+                        </label>
+                    </div>
+
+                    <button id="reveal-video-btn" class="action-btn" disabled>
+                        <i class="fas fa-unlock"></i> Reveal Secret Video
+                    </button>
+
+                    <div id="reveal-video-progress" class="progress-section" style="display: none;">
+                        <p id="reveal-video-status">Processing...</p>
+                        <div class="progress-bar">
+                            <div id="reveal-video-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p class="progress-percent" id="reveal-video-percent">0%</p>
+                    </div>
+
+                    <div id="reveal-video-result" class="result-section" style="display: none;">
+                        <h3><i class="fas fa-check-circle"></i> Success!</h3>
+                        <p>Secret video revealed successfully!</p>
+                        <div class="preview-container">
+                            <img id="reveal-video-preview" src="" alt="Result">
+                        </div>
+                        <div class="button-group">
+                            <button id="reveal-video-download" class="download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button id="reveal-video-reset" class="reset-btn">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="reveal-video-error" class="error-section" style="display: none;">
+                        <p id="reveal-video-error-msg"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 StegoAI - Advanced Steganography. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
